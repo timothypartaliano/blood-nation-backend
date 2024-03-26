@@ -28,6 +28,14 @@ paths:
                   $ref: '#/components/schemas/DonorActivity'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An internal server error occurred.
 
   /donor-activities/{id}:
     get:
@@ -62,6 +70,14 @@ paths:
                     example: Activity not found
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An internal server error occurred.
 
   /reservations:
     post:
@@ -95,8 +111,24 @@ paths:
                       type: string
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: You are not authorized to perform this action.
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An internal server error occurred.
 
     get:
       summary: Get list of reservations
@@ -114,8 +146,24 @@ paths:
                   $ref: '#/components/schemas/Reservation'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: You are not authorized to perform this action.
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An internal server error occurred.
 
   /reservations/{id}:
     put:
@@ -154,8 +202,24 @@ paths:
                     example: Reservation not found
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: You are not authorized to perform this action.
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An internal server error occurred.
 
     delete:
       summary: Delete a reservation
@@ -193,8 +257,24 @@ paths:
                     example: Reservation not found
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: You are not authorized to perform this action.
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An internal server error occurred.
 
 components:
   schemas:
