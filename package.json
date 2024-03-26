@@ -1,0 +1,19 @@
+{
+  "name": "blood-nation-backend",
+  "version": "1.0.0",
+  "description": "BloodNation is an application designed to facilitate blood donation by helping users find locations for blood donation events and make reservations to participate in these events.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.11.3",
+    "sequelize": "^6.37.1"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
+  }
+}
