@@ -80,6 +80,41 @@ paths:
                     example: An internal server error occurred.
 
   /reservations:
+    get:
+      summary: Get list of reservations
+      description: Retrieve a list of blood donation activity reservations.
+      tags:
+        - reservations
+      responses:
+        '200':
+          description: A list of reservations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reservation'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: You are not authorized to perform this action.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An internal server error occurred.
+
     post:
       summary: Create a new reservation
       description: Register for a blood donation activity by filling out the form.
@@ -130,41 +165,6 @@ paths:
                     type: string
                     example: An internal server error occurred.
 
-    get:
-      summary: Get list of reservations
-      description: Retrieve a list of blood donation activity reservations.
-      tags:
-        - reservations
-      responses:
-        '200':
-          description: A list of reservations
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Reservation'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: You are not authorized to perform this action.
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: An internal server error occurred.
-
   /reservations/{id}:
     put:
       summary: Update a reservation
@@ -179,6 +179,12 @@ paths:
             type: string
             format: uuid
           description: The ID of the reservation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
       responses:
         '200':
           description: Successfully updated the reservation
