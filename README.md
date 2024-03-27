@@ -7,3 +7,6 @@ application build :
 3. `npm i --save-dev sequelize-cli`
 4. `npm i pg`
 5. `npm i express`
+
+application sequelize cli :
+1. `npx sequelize init`
