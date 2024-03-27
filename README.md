@@ -5,4 +5,5 @@ application build :
 1. `npm init -y`
 2. `npm i sequelize`
 3. `npm i --save-dev sequelize-cli`
-3. `npm i pg`
+4. `npm i pg`
+5. `npm i express`
