@@ -10,3 +10,4 @@ application build :
 
 application sequelize cli :
 1. `npx sequelize init`
+2. `npx sequelize db:create`
