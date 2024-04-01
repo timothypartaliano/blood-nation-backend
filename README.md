@@ -12,3 +12,4 @@ application sequelize cli :
 1. `npx sequelize init`
 2. `npx sequelize db:create`
 3. `npx sequelize model:generate --name <table-name> --attributes <field>:<data-type>,<field>:<data-type>...`
+4. `npx sequelize db:migrate`

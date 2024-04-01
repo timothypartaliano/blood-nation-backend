@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Event.init({
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
     lokasi: DataTypes.STRING,
     kuotaPeserta: DataTypes.INTEGER,
     persyaratan: DataTypes.STRING,
