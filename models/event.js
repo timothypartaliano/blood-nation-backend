@@ -19,10 +19,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
-    lokasi: DataTypes.STRING,
-    kuotaPeserta: DataTypes.INTEGER,
-    persyaratan: DataTypes.STRING,
-    tanggal: DataTypes.DATE
+    name: DataTypes.STRING,
+    location: DataTypes.STRING,
+    quota: DataTypes.INTEGER,
+    requirements: DataTypes.STRING,
+    date: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Event',

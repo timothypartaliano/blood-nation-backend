@@ -9,16 +9,24 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
-      lokasi: {
+      name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      kuotaPeserta: {
+      location: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      quota: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
-      persyaratan: {
+      requirements: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      tanggal: {
+      date: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       createdAt: {

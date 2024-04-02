@@ -10,10 +10,11 @@ module.exports = {
       const randomDate = new Date(Date.now() + randomDays * 24 * 60 * 60 * 1000);
       return {
         id: uuidv4(),
-        lokasi: `Location ${index + 1}`,
-        kuotaPeserta: Math.floor(Math.random() * 100) + 1,
-        persyaratan: `Requirements for Event ${index + 1}`,
-        tanggal: randomDate,
+        name: `Hospital ${index + 1}`,
+        location: `Location ${index + 1}`,
+        quota: Math.floor(Math.random() * 100) + 1,
+        requirements: `Requirements for Event ${index + 1}`,
+        date: randomDate,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
