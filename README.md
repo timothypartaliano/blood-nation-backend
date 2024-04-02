@@ -13,3 +13,5 @@ application sequelize cli :
 2. `npx sequelize db:create`
 3. `npx sequelize model:generate --name <table-name> --attributes <field>:<data-type>,<field>:<data-type>...`
 4. `npx sequelize db:migrate`
+5. `npx sequelize seed:generate --name <file-name>`
+6. `npx sequelize db:seed --seed <seeders-file-name>`
