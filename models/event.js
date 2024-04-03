@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     location: DataTypes.STRING,
     quota: DataTypes.INTEGER,
     requirements: DataTypes.STRING,
-    date: DataTypes.DATE
+    date: DataTypes.DATE,
+    imageUrl: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Event',
