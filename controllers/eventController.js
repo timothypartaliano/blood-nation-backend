@@ -8,7 +8,6 @@ class EventController {
             })
             .catch(err => {
                 res.status(500).json({ message: err.message });
-                // res.status(500).json(err);
             })
     }
 
@@ -19,7 +18,30 @@ class EventController {
             })
             .catch(err => {
                 res.status(500).json({ message: err.message });
-                // res.status(500).json(err);
+            })
+    }
+
+    static CreateEvent(req, res) {
+        const { name, location, quota, requirements, date, imageUrl } = req.body;
+
+        if (!name || !location || !quota || !requirements || !date) {
+            res.status(400).json({ message: "All fields are required" });
+            return;
+        }
+
+        Event.create({
+            name,
+            location,
+            quota,
+            requirements,
+            date,
+            imageUrl
+        })
+            .then(result => {
+                res.status(201).json(result);
+            })
+            .catch(err => {
+                res.status(500).json({ message: err.message });
             })
     }
 }
