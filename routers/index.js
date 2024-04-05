@@ -3,6 +3,7 @@ const EventController = require('../controllers/eventController');
 const UserController = require('../controllers/userController');
 
 router.post('/users/register', UserController.Register);
+router.post('/users/login', UserController.Login);
 
 router.get('/events', EventController.GetAllEvents);
 router.get('/events/:id', EventController.GetEventByID);
