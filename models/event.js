@@ -17,14 +17,33 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false
     },
-    name: DataTypes.STRING,
-    location: DataTypes.STRING,
-    quota: DataTypes.INTEGER,
-    requirements: DataTypes.STRING,
-    date: DataTypes.DATE,
-    imageUrl: DataTypes.STRING
+    name: { 
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    location: { 
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    quota: { 
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    requirements: { 
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    date: { 
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    imageUrl: { 
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   }, {
     sequelize,
     modelName: 'Event',
