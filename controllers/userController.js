@@ -1,5 +1,6 @@
 const { User } = require('../models');
 const { comparePassword } = require('../helpers/bcrypt');
+const { generateToken } = require('../helpers/jwt');
 
 class UserController {
     static Register(req, res) {
@@ -46,13 +47,14 @@ class UserController {
                         devMessage: `User's password with email ${email} does not match`
                     }
                 }
-                let response = {
+                let payload = {
                     id: user.id,
-                    username: user.username,
                     email: user.email,
-                    phoneNumber: user.phoneNumber
                 }
-                return res.status(200).json(response)
+
+                const token = generateToken(payload)
+
+                return res.status(200).json({ token })
             })
             .catch(err => {
                 res.status(401).json(err)
