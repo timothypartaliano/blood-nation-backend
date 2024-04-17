@@ -7,6 +7,7 @@ class EventController {
                 res.status(200).json(result);
             })
             .catch(err => {
+                console.error(err);
                 res.status(500).json({ message: err.message });
             })
     }
@@ -14,9 +15,13 @@ class EventController {
     static GetEventByID(req, res) {
         Event.findByPk(req.params.id)
             .then(result => {
+                if (!result) {
+                    return res.status(404).json({ message: 'Event not found' });
+                }
                 res.status(200).json(result);
             })
             .catch(err => {
+                console.error(err);
                 res.status(500).json({ message: err.message });
             })
     }
@@ -25,8 +30,7 @@ class EventController {
         const { name, location, quota, requirements, date, imageUrl } = req.body;
 
         if (!name || !location || !quota || !requirements || !date) {
-            res.status(400).json({ message: "All fields are required" });
-            return;
+            return res.status(400).json({ message: "All fields are required" });
         }
 
         Event.create({
@@ -41,7 +45,12 @@ class EventController {
                 res.status(201).json(result);
             })
             .catch(err => {
-                res.status(500).json({ message: err.message });
+                console.error(err);
+                if (err.name === 'SequelizeUniqueConstraintError') {
+                    res.status(400).json({ message: 'Event already exists' });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
             })
     }
 
@@ -49,8 +58,7 @@ class EventController {
         const { name, location, quota, requirements, date, imageUrl } = req.body;
 
         if (!name || !location || !quota || !requirements || !date) {
-            res.status(400).json({ message: "All fields are required" });
-            return;
+            return res.status(400).json({ message: "All fields are required" });
         }
 
         let eventData = {
@@ -67,9 +75,14 @@ class EventController {
             returning: true
         })
             .then(result => {
-                res.status(200).json({ message: "Event updated successfully", event: result });
+                if (result[0] === 0) {
+                    res.status(404).json({ message: 'Event not found' });
+                } else {
+                    res.status(200).json({ message: "Event updated successfully", event: result[1][0] });
+                }
             })
             .catch(err => {
+                console.error(err);
                 res.status(500).json({ message: err.message });
             })
     }
@@ -79,9 +92,14 @@ class EventController {
             where: { id: req.params.id }
         })
             .then(result => {
-                res.status(200).json({ message: "Event deleted successfully", result });
+                if (result === 0) {
+                    res.status(404).json({ message: 'Event not found' });
+                } else {
+                    res.status(200).json({ message: "Event deleted successfully", result });
+                }
             })
             .catch(err => {
+                console.error(err);
                 res.status(500).json({ message: err.message });
             })
     }
