@@ -20,5 +20,6 @@ router.get('/reservations', ReservationController.GetAllReservation);
 router.get('/reservations/:id', ReservationController.GetReservationByID);
 router.post('/reservations', ReservationController.CreateReservation);
 router.put('/reservations/:id', authorization, ReservationController.UpdateReservationByID);
+router.delete('/reservations/:id', authorization, ReservationController.DeleteReservationbyID);
 
 module.exports = router;

@@ -82,6 +82,23 @@ class ReservationController {
                 res.status(500).json({ message: err.message });
             })
     }
+
+    static DeleteReservationbyID(req, res) {
+        Reservation.destroy({
+            where: { id: req.params.id }
+        })
+            .then(result => {
+                if (result === 0) {
+                    res.status(404).json({ message: 'Reservation not found' });
+                } else {
+                    res.status(200).json({ message: "Reservation deleted successfully", result });
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).json({ message: err.message });
+            })
+    }
 }
 
 module.exports = ReservationController;
