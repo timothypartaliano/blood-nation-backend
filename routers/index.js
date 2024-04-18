@@ -18,5 +18,6 @@ router.delete('/events/:id', authorization, EventController.DeleteEventbyID);
 
 router.get('/reservations', ReservationController.GetAllReservation);
 router.get('/reservations/:id', ReservationController.GetReservationByID);
+router.post('/reservations', ReservationController.CreateReservation);
 
 module.exports = router;
