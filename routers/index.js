@@ -13,13 +13,13 @@ router.use(authentication);
 router.get('/events', EventController.GetAllEvents);
 router.get('/events/:id', EventController.GetEventByID);
 router.post('/events', EventController.CreateEvent);
-router.put('/events/:id', authorization, EventController.UpdateEventByID);
-router.delete('/events/:id', authorization, EventController.DeleteEventbyID);
+router.put('/events/:id', EventController.UpdateEventByID);
+router.delete('/events/:id', EventController.DeleteEventbyID);
 
 router.get('/reservations', ReservationController.GetAllReservation);
 router.get('/reservations/:id', ReservationController.GetReservationByID);
 router.post('/reservations', ReservationController.CreateReservation);
-router.put('/reservations/:id', authorization, ReservationController.UpdateReservationByID);
-router.delete('/reservations/:id', authorization, ReservationController.DeleteReservationbyID);
+router.put('/reservations/:id', ReservationController.UpdateReservationByID);
+router.delete('/reservations/:id', ReservationController.DeleteReservationbyID);
 
 module.exports = router;

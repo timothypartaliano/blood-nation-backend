@@ -10,6 +10,7 @@ BloodNation is an application designed to facilitate blood donation by helping u
 6. `npm i bcrypt`
 7. `npm i jsonwebtoken`
 8. `npm i dotenv`
+9. `npm i uuid-validate`
 
 **application sequelize cli** :
 1. `npx sequelize init`

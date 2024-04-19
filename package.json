@@ -16,7 +16,8 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.3",
-    "sequelize": "^6.37.1"
+    "sequelize": "^6.37.1",
+    "uuid-validate": "^0.0.3"
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.2"

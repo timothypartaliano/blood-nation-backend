@@ -1,11 +1,12 @@
 const { Event } = require("../models")
 const { v4: uuidv4 } = require('uuid');
+const uuidValidate = require('uuid-validate');
 
 function authorization(req, res, next) {
     const eventId = req.params.id;
     const authenticatedUser = res.locals.user;
 
-    if (!uuidv4.valid(eventId)) {
+    if (!uuidValidate(eventId)) {
         return res.status(400).json({
             name: "Bad Request",
             devMessage: "Invalid event ID provided"
