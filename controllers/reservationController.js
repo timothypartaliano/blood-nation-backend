@@ -1,8 +1,10 @@
-const { Reservation } = require('../models');
+const { Reservation, User } = require('../models');
 
 class ReservationController {
     static GetAllReservation(req, res) {
-        Reservation.findAll()
+        Reservation.findAll({
+                include: [User]
+        })
             .then(result => {
                 res.status(200).json(result);
             })

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.User)
     }
   }
   Reservation.init({
@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     bloodType: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    UserId : {
+      type: DataTypes.UUID,
       allowNull: false
     }
   }, {
