@@ -29,29 +29,43 @@ class ReservationController {
     }
 
     static CreateReservation(req, res) {
-        const { address, age, weight, bloodType } = req.body;
+        const { address, age, weight, bloodType, EventId } = req.body;
+        const user = res.locals.user
 
-        if (!address || !age || !weight || !bloodType) {
+        if (!address || !age || !weight || !bloodType || !EventId) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        Reservation.create({
-            address,
-            age,
-            weight,
-            bloodType
+        Event.findByPk(EventId)
+        .then(event => {
+            if (!event) {
+                return res.status(404).json({ message: 'Event not found' });
+            }
+
+            Reservation.create({
+                address,
+                age,
+                weight,
+                bloodType,
+                UserId: user.id,
+                EventId: EventId
+            })
+                .then(result => {
+                    res.status(201).json({ message: 'Reservation created successfully', reservation: result, eventId: EventId });
+                })
+                .catch(err => {
+                    console.error(err);
+                    if (err.name === 'SequelizeUniqueConstraintError') {
+                        res.status(400).json({ message: 'Reservation already exists' });
+                    } else {
+                        res.status(500).json({ message: err.message });
+                    }
+                });
         })
-            .then(result => {
-                res.status(201).json(result);
-            })
-            .catch(err => {
-                console.error(err);
-                if (err.name === 'SequelizeUniqueConstraintError') {
-                    res.status(400).json({ message: 'Reservation already exists' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
-            })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ message: err.message });
+        });
     }
 
     static UpdateReservationByID(req, res) {
