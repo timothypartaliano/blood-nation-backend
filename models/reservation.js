@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User)
+      this.belongsTo(models.Event)
     }
   }
   Reservation.init({
@@ -37,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     UserId : {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    EventId : {
       type: DataTypes.UUID,
       allowNull: false
     }
