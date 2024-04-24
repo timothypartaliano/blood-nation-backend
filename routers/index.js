@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const ReservationController = require('../controllers/ReservationController');
+const ReservationController = require('../controllers/reservationController');
 const EventController = require('../controllers/eventController');
 const UserController = require('../controllers/userController');
 const authentication = require('../middlewares/authentication');
@@ -18,7 +18,7 @@ router.delete('/events/:id', EventController.DeleteEventbyID);
 
 router.get('/reservations', ReservationController.GetAllReservation);
 router.get('/reservations/:id', ReservationController.GetReservationByID);
-router.post('/reservations', ReservationController.CreateReservation);
+router.post('/reservations/:eventId', ReservationController.CreateReservation);
 router.put('/reservations/:id', ReservationController.UpdateReservationByID);
 router.delete('/reservations/:id', ReservationController.DeleteReservationbyID);
 

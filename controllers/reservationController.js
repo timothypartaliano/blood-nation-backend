@@ -29,14 +29,15 @@ class ReservationController {
     }
 
     static CreateReservation(req, res) {
-        const { address, age, weight, bloodType, EventId } = req.body;
-        const user = res.locals.user
+        const { address, age, weight, bloodType } = req.body;
+        const eventId = req.body.eventId;
+        const user = res.locals.user;
 
-        if (!address || !age || !weight || !bloodType || !EventId) {
+        if (!address || !age || !weight || !bloodType || !eventId) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        Event.findByPk(EventId)
+        Event.findByPk(eventId)
         .then(event => {
             if (!event) {
                 return res.status(404).json({ message: 'Event not found' });
@@ -48,10 +49,10 @@ class ReservationController {
                 weight,
                 bloodType,
                 UserId: user.id,
-                EventId: EventId
+                EventId: eventId
             })
                 .then(result => {
-                    res.status(201).json({ message: 'Reservation created successfully', reservation: result, eventId: EventId });
+                    res.status(201).json({ message: 'Reservation created successfully', reservation: result, eventId: eventId });
                 })
                 .catch(err => {
                     console.error(err);
