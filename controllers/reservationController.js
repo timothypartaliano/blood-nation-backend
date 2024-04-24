@@ -30,7 +30,7 @@ class ReservationController {
 
     static CreateReservation(req, res) {
         const { address, age, weight, bloodType } = req.body;
-        const eventId = req.body.eventId;
+        const eventId = req.params.eventId;
         const user = res.locals.user;
 
         if (!address || !age || !weight || !bloodType || !eventId) {
