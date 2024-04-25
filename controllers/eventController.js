@@ -27,7 +27,7 @@ class EventController {
     }
 
     static CreateEvent(req, res) {
-        const { name, location, quota, requirements, date, imageUrl } = req.body;
+        const { name, location, quota, requirements, date, image_url } = req.body;
 
         if (!name || !location || !quota || !requirements || !date) {
             return res.status(400).json({ message: "All fields are required" });
@@ -39,7 +39,7 @@ class EventController {
             quota,
             requirements,
             date,
-            imageUrl
+            image_url
         })
             .then(result => {
                 res.status(201).json(result);
@@ -55,7 +55,7 @@ class EventController {
     }
 
     static UpdateEventByID(req, res) {
-        const { name, location, quota, requirements, date, imageUrl } = req.body;
+        const { name, location, quota, requirements, date, image_url } = req.body;
 
         if (!name || !location || !quota || !requirements || !date) {
             return res.status(400).json({ message: "All fields are required" });
@@ -67,7 +67,7 @@ class EventController {
             quota,
             requirements,
             date,
-            imageUrl
+            image_url
         }
 
         Event.update(eventData, {

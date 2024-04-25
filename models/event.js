@@ -40,13 +40,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false
     },
-    imageUrl: { 
+    image_url: { 
       type: DataTypes.STRING,
       allowNull: true
     }
   }, {
     sequelize,
     modelName: 'Event',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
   });
   return Event;
 };

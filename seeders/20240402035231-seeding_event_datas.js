@@ -15,9 +15,9 @@ module.exports = {
         quota: Math.floor(Math.random() * 100) + 1,
         requirements: `Requirements for Event ${index + 1}`,
         date: randomDate,
-        imageUrl: "https://source.unsplash.com/featured/?hospital",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        image_url: "https://source.unsplash.com/featured/?hospital",
+        created_at: new Date(),
+        updated_at: new Date(),
       };
     });
 
