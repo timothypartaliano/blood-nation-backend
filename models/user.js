@@ -38,13 +38,15 @@ module.exports = (sequelize, DataTypes) => {
         len: [5, Infinity]
       }
     },
-    phoneNumber: {
+    phone_number: {
       type: DataTypes.STRING,
       allowNull: false
     }
   }, {
     sequelize,
     modelName: 'User',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     hooks: {
       beforeCreate: (user, opt) => {
         const hashedPassword = hashPassword(user.password)
