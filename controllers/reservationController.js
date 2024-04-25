@@ -3,7 +3,7 @@ const { Reservation, User, Event } = require('../models');
 class ReservationController {
     static GetAllReservation(req, res) {
         Reservation.findAll({
-            include: [User, Event]
+            include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
         })
             .then(result => {
                 res.status(200).json(result);
@@ -16,7 +16,7 @@ class ReservationController {
 
     static GetReservationByID(req, res) {
         Reservation.findByPk(req.params.id, {
-            include: [User, Event]
+            include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
         })
             .then(result => {
                 if (!result) {
