@@ -3,7 +3,7 @@ const { Reservation, User, Event } = require('../models');
 class ReservationController {
     static GetAllReservation(req, res) {
         Reservation.findAll({
-                include: [User, Event]
+            include: [User, Event]
         })
             .then(result => {
                 res.status(200).json(result);
@@ -15,7 +15,9 @@ class ReservationController {
     }
 
     static GetReservationByID(req, res) {
-        Reservation.findByPk(req.params.id)
+        Reservation.findByPk(req.params.id, {
+            include: [User, Event]
+        })
             .then(result => {
                 if (!result) {
                     return res.status(404).json({ message: 'Reservation not found' });
@@ -29,11 +31,11 @@ class ReservationController {
     }
 
     static CreateReservation(req, res) {
-        const { address, age, weight, bloodType } = req.body;
+        const { address, age, weight, blood_type } = req.body;
         const eventId = req.params.eventId;
         const user = res.locals.user;
 
-        if (!address || !age || !weight || !bloodType || !eventId) {
+        if (!address || !age || !weight || !blood_type || !eventId) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -47,9 +49,9 @@ class ReservationController {
                 address,
                 age,
                 weight,
-                bloodType,
-                UserId: user.id,
-                EventId: eventId
+                blood_type,
+                user_id: user.id,
+                event_id: eventId
             })
                 .then(result => {
                     res.status(201).json({ message: 'Reservation created successfully', reservation: result, eventId: eventId });
@@ -70,9 +72,9 @@ class ReservationController {
     }
 
     static UpdateReservationByID(req, res) {
-        const { address, age, weight, bloodType } = req.body;
+        const { address, age, weight, blood_type } = req.body;
 
-        if (!address || !age || !weight || !bloodType) {
+        if (!address || !age || !weight || !blood_type) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -80,7 +82,7 @@ class ReservationController {
             address,
             age,
             weight,
-            bloodType
+            blood_type
         }
 
         Reservation.update(reservationData, {
