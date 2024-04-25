@@ -31,11 +31,11 @@ class ReservationController {
     }
 
     static CreateReservation(req, res) {
-        const { address, age, weight, blood_type } = req.body;
+        const { address, age, weight, bloodType } = req.body;
         const eventId = req.params.eventId;
         const user = res.locals.user;
 
-        if (!address || !age || !weight || !blood_type || !eventId) {
+        if (!address || !age || !weight || !bloodType || !eventId) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -49,7 +49,7 @@ class ReservationController {
                 address,
                 age,
                 weight,
-                blood_type,
+                blood_type: bloodType,
                 user_id: user.id,
                 event_id: eventId
             })
@@ -72,9 +72,9 @@ class ReservationController {
     }
 
     static UpdateReservationByID(req, res) {
-        const { address, age, weight, blood_type } = req.body;
+        const { address, age, weight, bloodType } = req.body;
 
-        if (!address || !age || !weight || !blood_type) {
+        if (!address || !age || !weight || !bloodType) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -82,7 +82,7 @@ class ReservationController {
             address,
             age,
             weight,
-            blood_type
+            blood_type: bloodType
         }
 
         Reservation.update(reservationData, {
