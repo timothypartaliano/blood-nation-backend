@@ -3,7 +3,7 @@ const { Reservation, User, Event } = require('../models');
 class ReservationController {
     static GetAllReservation(req, res) {
         Reservation.findAll({
-                include: [User, Event]
+            include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
         })
             .then(result => {
                 res.status(200).json(result);
@@ -15,7 +15,9 @@ class ReservationController {
     }
 
     static GetReservationByID(req, res) {
-        Reservation.findByPk(req.params.id)
+        Reservation.findByPk(req.params.id, {
+            include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
+        })
             .then(result => {
                 if (!result) {
                     return res.status(404).json({ message: 'Reservation not found' });
@@ -47,9 +49,9 @@ class ReservationController {
                 address,
                 age,
                 weight,
-                bloodType,
-                UserId: user.id,
-                EventId: eventId
+                blood_type: bloodType,
+                user_id: user.id,
+                event_id: eventId
             })
                 .then(result => {
                     res.status(201).json({ message: 'Reservation created successfully', reservation: result, eventId: eventId });
@@ -80,7 +82,7 @@ class ReservationController {
             address,
             age,
             weight,
-            bloodType
+            blood_type: bloodType
         }
 
         Reservation.update(reservationData, {

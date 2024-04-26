@@ -10,10 +10,10 @@ module.exports = {
       address: 'Jl. Nusantara',
       age: 27,
       weight: 45,
-      bloodType: 'A-',
-      UserId: 'aac4a64c-2a7f-47c7-8238-6d242c610081',
-      createdAt: new Date(),
-      updatedAt: new Date()
+      blood_type: 'A-',
+      user_id: 'aac4a64c-2a7f-47c7-8238-6d242c610081',
+      created_at: new Date(),
+      updated_at: new Date()
     };
 
     await queryInterface.bulkInsert('Reservations', [dummyReservation], {});

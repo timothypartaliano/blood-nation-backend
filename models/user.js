@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.Reservation)
+      this.hasMany(models.Reservation, { foreignKey: 'user_id', as: 'reservations' });
     }
   }
   User.init({
@@ -38,13 +38,15 @@ module.exports = (sequelize, DataTypes) => {
         len: [5, Infinity]
       }
     },
-    phoneNumber: {
+    phone_number: {
       type: DataTypes.STRING,
       allowNull: false
     }
   }, {
     sequelize,
     modelName: 'User',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     hooks: {
       beforeCreate: (user, opt) => {
         const hashedPassword = hashPassword(user.password)

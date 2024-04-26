@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.User)
-      this.belongsTo(models.Event)
+      this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+      this.belongsTo(models.Event, { foreignKey: 'event_id', as: 'event' });
     }
   }
   Reservation.init({
@@ -33,21 +33,23 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    bloodType: {
+    blood_type: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    UserId : {
+    user_id: {
       type: DataTypes.UUID,
       allowNull: false
     },
-    EventId : {
+    event_id: {
       type: DataTypes.UUID,
       allowNull: false
     }
   }, {
     sequelize,
     modelName: 'Reservation',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
   });
   return Reservation;
 };

@@ -10,9 +10,9 @@ module.exports = {
       address: 'Jl. Haji Hanafi',
       age: 35,
       weight: 60,
-      bloodType: 'A+',
-      createdAt: new Date(),
-      updatedAt: new Date()
+      blood_type: 'A+',
+      created_at: new Date(),
+      updated_at: new Date()
     };
 
     await queryInterface.bulkInsert('Reservations', [dummyReservation], {});

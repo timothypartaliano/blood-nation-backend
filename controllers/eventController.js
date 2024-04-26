@@ -39,7 +39,7 @@ class EventController {
             quota,
             requirements,
             date,
-            imageUrl
+            image_url: imageUrl
         })
             .then(result => {
                 res.status(201).json(result);
@@ -67,7 +67,7 @@ class EventController {
             quota,
             requirements,
             date,
-            imageUrl
+            image_url: imageUrl
         }
 
         Event.update(eventData, {

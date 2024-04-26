@@ -3,12 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.addColumn('Reservations', 'EventId', {
+    await queryInterface.addColumn('Reservations', 'event_id', {
       type: Sequelize.UUID
     })
 
     await queryInterface.addConstraint('Reservations', {
-      fields: ["EventId"],
+      fields: ["event_id"],
       type: "foreign key",
       name: "event_fk",
       references: {
@@ -22,6 +22,6 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     await queryInterface.removeConstraint('Reservations', 'event_fk')
-    await queryInterface.removeColumn('Reservations', 'EventId')
+    await queryInterface.removeColumn('Reservations', 'event_id')
   }
 };

@@ -9,14 +9,14 @@ class UserController {
             username,
             email,
             password,
-            phoneNumber
+            phone_number: phoneNumber
         })
             .then(result => {
                 let response = {
                     id: result.id,
                     username: result.username,
                     email: result.email,
-                    phoneNumber: result.phoneNumber
+                    phone_number: result.phone_number
                 }
                 res.status(201).json(response)
             })
