@@ -10,6 +10,8 @@ router.post('/users/login', UserController.Login);
 
 router.use(authentication);
 
+router.get('/users/:id', UserController.GetUserByID);
+
 router.get('/events', EventController.GetAllEvents);
 router.get('/events/:id', EventController.GetEventByID);
 router.post('/events', EventController.CreateEvent);
