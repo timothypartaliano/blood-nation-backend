@@ -2,7 +2,11 @@ const { Event } = require('../models');
 
 class EventController {
     static GetAllEvents(req, res) {
-        Event.findAll()
+        const page = req.query.page || 1;
+        const limit = 10;
+        const offset = (page - 1) * limit;
+
+        Event.findAll({ limit, offset })
             .then(result => {
                 res.status(200).json(result);
             })
