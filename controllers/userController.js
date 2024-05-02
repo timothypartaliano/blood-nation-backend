@@ -12,8 +12,8 @@ class UserController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error(err);
-                res.status(500).json({ message: err.message });
+                console.error("An error occurred while processing the request.");
+                res.status(500).json({ message: 'Internal Server Error' });
             })
     }
 
@@ -35,11 +35,11 @@ class UserController {
                 res.status(201).json(response)
             })
             .catch(err => {
-                console.error(err);
+                console.error("An error occurred while processing the request.");
                 if (err.name === 'SequelizeUniqueConstraintError') {
                     res.status(400).json({ message: 'User already exists' });
                 } else {
-                    res.status(500).json({ message: err.message });
+                    res.status(500).json({ message: 'Internal Server Error' });
                 }
             })
     }
@@ -75,11 +75,11 @@ class UserController {
                 return res.status(200).json({ token })
             })
             .catch(err => {
-                console.error(err);
+                console.error("An error occurred while processing the request.");
                 if (err.name === 'User Login Error') {
                     res.status(401).json({ message: err.devMessage });
                 } else {
-                    res.status(500).json({ message: err.message });
+                    res.status(500).json({ message: 'Internal Server Error' });
                 }
             })
     }
