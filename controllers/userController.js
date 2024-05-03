@@ -72,7 +72,11 @@ class UserController {
 
                 const token = generateToken(payload)
 
-                return res.status(200).json({ token })
+                return res.status(200).json({ 
+                    token,
+                    user_id: user.id,
+                    username: user.username
+                })
             })
             .catch(err => {
                 console.error("An error occurred while processing the request.");
