@@ -9,8 +9,12 @@ class ReservationController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error("An error occurred while processing the request.");
-                res.status(500).json({ message: 'Internal Server Error' });
+                console.error('Internal Server Error occurred:', err);
+                if (err instanceof BaseError) {
+                    res.status(500).json({ message: 'Internal Server Error' });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
             })
     }
 
@@ -25,8 +29,12 @@ class ReservationController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error("An error occurred while processing the request.");
-                res.status(500).json({ message: 'Internal Server Error' });
+                console.error('Internal Server Error occurred:', err);
+                if (err instanceof BaseError) {
+                    res.status(500).json({ message: 'Internal Server Error' });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
             })
     }
 
@@ -66,8 +74,14 @@ class ReservationController {
                 });
         })
         .catch(err => {
-            console.error(err);
-            res.status(500).json({ message: err.message });
+            console.error('Internal Server Error occurred:', err);
+            if (err instanceof BaseError) {
+                res.status(500).json({ message: 'Internal Server Error' });
+            } else if (err.name === 'SequelizeUniqueConstraintError') {
+                res.status(400).json({ message: 'Event already exists' });
+            } else {
+                res.status(500).json({ message: err.message });
+            }
         });
     }
 
@@ -97,8 +111,12 @@ class ReservationController {
                 }
             })
             .catch(err => {
-                console.error("An error occurred while processing the request.");
-                res.status(500).json({ message: 'Internal Server Error' });
+                console.error('Internal Server Error occurred:', err);
+                if (err instanceof BaseError) {
+                    res.status(500).json({ message: 'Internal Server Error' });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
             })
     }
 
@@ -114,8 +132,14 @@ class ReservationController {
                 }
             })
             .catch(err => {
-                console.error("An error occurred while processing the request.");
-                res.status(500).json({ message: 'Internal Server Error' });
+                console.error('Internal Server Error occurred:', err);
+                if (err instanceof BaseError) {
+                    res.status(500).json({ message: 'Internal Server Error' });
+                } else if (err.name === 'ForbiddenError') {
+                    res.status(403).json({ message: 'Forbidden' });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
             })
     }
 }

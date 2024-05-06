@@ -1,4 +1,5 @@
-const { Event } = require('../models');
+const { Event, Sequelize } = require('../models');
+const { BaseError } = Sequelize;
 
 class EventController {
     static GetAllEvents(req, res) {
@@ -8,11 +9,15 @@ class EventController {
 
         Event.findAll({ limit, offset })
             .then(result => {
-                res.status(200).json(result);
+                res.status(200).json(result); 
             })
             .catch(err => {
-                console.error("An error occurred while processing the request.");
-                res.status(500).json({ message: 'Internal Server Error' });
+                console.error('Internal Server Error occurred:', err);
+                if (err instanceof BaseError) {
+                    res.status(500).json({ message: 'Internal Server Error' });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
             })
     }
 
@@ -25,8 +30,12 @@ class EventController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error("An error occurred while processing the request.");
-                res.status(500).json({ message: 'Internal Server Error' });
+                console.error('Internal Server Error occurred:', err);
+                if (err instanceof BaseError) {
+                    res.status(500).json({ message: 'Internal Server Error' });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
             })
     }
 
@@ -49,11 +58,15 @@ class EventController {
                 res.status(201).json(result);
             })
             .catch(err => {
-                console.error("An error occurred while processing the request.");
-                if (err.name === 'SequelizeUniqueConstraintError') {
-                    res.status(400).json({ message: 'Event already exists' });
-                } else {
+                console.error('Internal Server Error occurred:', err);
+                if (err instanceof BaseError) {
                     res.status(500).json({ message: 'Internal Server Error' });
+                } else if (err.name === 'SequelizeUniqueConstraintError') {
+                    res.status(400).json({ message: 'Event already exists' });
+                } else if (err.name === 'ForbiddenError') {
+                    res.status(403).json({ message: 'Forbidden' });
+                } else {
+                    res.status(500).json({ message: err.message });
                 }
             })
     }
@@ -86,8 +99,14 @@ class EventController {
                 }
             })
             .catch(err => {
-                console.error("An error occurred while processing the request.");
-                res.status(500).json({ message: 'Internal Server Error' });
+                console.error('Internal Server Error occurred:', err);
+                if (err instanceof BaseError) {
+                    res.status(500).json({ message: 'Internal Server Error' });
+                } else if (err.name === 'ForbiddenError') {
+                    res.status(403).json({ message: 'Forbidden' });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
             })
     }
 
@@ -103,8 +122,14 @@ class EventController {
                 }
             })
             .catch(err => {
-                console.error("An error occurred while processing the request.");
-                res.status(500).json({ message: 'Internal Server Error' });
+                console.error('Internal Server Error occurred:', err);
+                if (err instanceof BaseError) {
+                    res.status(500).json({ message: 'Internal Server Error' });
+                } else if (err.name === 'ForbiddenError') {
+                    res.status(403).json({ message: 'Forbidden' });
+                } else {
+                    res.status(500).json({ message: err.message });
+                }
             })
     }
 }
