@@ -1,6 +1,7 @@
-const { User } = require('../models');
+const { User, Sequelize } = require('../models');
 const { comparePassword } = require('../helpers/bcrypt');
 const { generateToken } = require('../helpers/jwt');
+const { BaseError } = Sequelize;
 
 class UserController {
     static GetUserByID(req, res) {

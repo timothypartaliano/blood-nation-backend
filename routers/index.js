@@ -20,6 +20,7 @@ router.delete('/events/:id', EventController.DeleteEventbyID);
 
 router.get('/reservations', ReservationController.GetAllReservation);
 router.get('/reservations/:id', ReservationController.GetReservationByID);
+router.get('/reservations/user/:userId', ReservationController.GetReservationByUserID);
 router.post('/reservations/:eventId', ReservationController.CreateReservation);
 router.put('/reservations/:id', ReservationController.UpdateReservationByID);
 router.delete('/reservations/:id', ReservationController.DeleteReservationbyID);
