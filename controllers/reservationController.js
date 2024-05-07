@@ -1,8 +1,7 @@
 const { Reservation, User, Event, Sequelize } = require('../models');
-const { BaseError } = Sequelize;
 
 class ReservationController {
-    static GetAllReservation(req, res) {
+    static GetAllReservation(req, res, next) {
         Reservation.findAll({
             include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
         })
@@ -10,16 +9,11 @@ class ReservationController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
-            })
+                next(err);
+            });
     }
 
-    static GetReservationByID(req, res) {
+    static GetReservationByID(req, res, next) {
         Reservation.findByPk(req.params.id, {
             include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
         })
@@ -30,16 +24,11 @@ class ReservationController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
-            })
+                next(err);
+            });
     }
 
-    static GetReservationByUserID(req, res) {
+    static GetReservationByUserID(req, res, next) {
         const userId = req.params.userId;
 
         Reservation.findAll({
@@ -53,16 +42,11 @@ class ReservationController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
+                next(err);
             });
     }
 
-    static CreateReservation(req, res) {
+    static CreateReservation(req, res, next) {
         const { address, age, weight, bloodType } = req.body;
         const eventId = req.params.eventId;
         const user = res.locals.user;
@@ -98,18 +82,11 @@ class ReservationController {
                     });
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else if (err.name === 'SequelizeUniqueConstraintError') {
-                    res.status(400).json({ message: 'Event already exists' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
+                next(err);
             });
     }
 
-    static UpdateReservationByID(req, res) {
+    static UpdateReservationByID(req, res, next) {
         const { address, age, weight, bloodType } = req.body;
 
         if (!address || !age || !weight || !bloodType) {
@@ -135,13 +112,8 @@ class ReservationController {
                 }
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
-            })
+                next(err);
+            });
     }
 
     static DeleteReservationbyID(req, res) {
@@ -156,15 +128,8 @@ class ReservationController {
                 }
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else if (err.name === 'ForbiddenError') {
-                    res.status(403).json({ message: 'Forbidden' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
-            })
+                next(err);
+            });
     }
 }
 

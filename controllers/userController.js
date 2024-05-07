@@ -1,10 +1,9 @@
 const { User, Sequelize } = require('../models');
 const { comparePassword } = require('../helpers/bcrypt');
 const { generateToken } = require('../helpers/jwt');
-const { BaseError } = Sequelize;
 
 class UserController {
-    static GetUserByID(req, res) {
+    static GetUserByID(req, res, next) {
         User.findByPk(req.params.id)
             .then(result => {
                 if (!result) {
@@ -13,16 +12,11 @@ class UserController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
-            })
+                next(err);
+            });
     }
 
-    static Register(req, res) {
+    static Register(req, res, next) {
         const { username, email, password, phoneNumber } = req.body
         User.create({
             username,
@@ -40,18 +34,11 @@ class UserController {
                 res.status(201).json(response)
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else if (err.name === 'SequelizeUniqueConstraintError') {
-                    res.status(400).json({ message: 'User already exists' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
-            })
+                next(err);
+            });
     }
 
-    static Login(req, res) {
+    static Login(req, res, next) {
         const { email, password } = req.body
         User.findOne({
             where: {
@@ -86,15 +73,8 @@ class UserController {
                 })
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else if (err.name === 'User Login Error') {
-                    res.status(401).json({ message: err.devMessage });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
-            })
+                next(err);
+            });
     }
 }
 

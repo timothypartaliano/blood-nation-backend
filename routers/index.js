@@ -4,6 +4,7 @@ const EventController = require('../controllers/eventController');
 const UserController = require('../controllers/userController');
 const authentication = require('../middlewares/authentication');
 const authorization = require('../middlewares/authorization');
+const errorHandler = require('../middlewares/errorHandler');
 
 router.post('/users/register', UserController.Register);
 router.post('/users/login', UserController.Login);
@@ -24,5 +25,7 @@ router.get('/reservations/user/:userId', ReservationController.GetReservationByU
 router.post('/reservations/:eventId', ReservationController.CreateReservation);
 router.put('/reservations/:id', ReservationController.UpdateReservationByID);
 router.delete('/reservations/:id', ReservationController.DeleteReservationbyID);
+
+router.use(errorHandler);
 
 module.exports = router;

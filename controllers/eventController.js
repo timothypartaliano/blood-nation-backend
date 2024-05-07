@@ -1,5 +1,4 @@
 const { Event, Sequelize } = require('../models');
-const { BaseError } = Sequelize;
 
 class EventController {
     static GetAllEvents(req, res) {
@@ -12,16 +11,11 @@ class EventController {
                 res.status(200).json(result); 
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
+                next(err);
             })
     }
 
-    static GetEventByID(req, res) {
+    static GetEventByID(req, res, next) {
         Event.findByPk(req.params.id)
             .then(result => {
                 if (!result) {
@@ -30,16 +24,11 @@ class EventController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
+                next(err);
             })
     }
 
-    static CreateEvent(req, res) {
+    static CreateEvent(req, res, next) {
         const { name, location, quota, requirements, date, imageUrl } = req.body;
 
         if (!name || !location || !quota || !requirements || !date) {
@@ -58,20 +47,11 @@ class EventController {
                 res.status(201).json(result);
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else if (err.name === 'SequelizeUniqueConstraintError') {
-                    res.status(400).json({ message: 'Event already exists' });
-                } else if (err.name === 'ForbiddenError') {
-                    res.status(403).json({ message: 'Forbidden' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
+                next(err);
             })
     }
 
-    static UpdateEventByID(req, res) {
+    static UpdateEventByID(req, res, next) {
         const { name, location, quota, requirements, date, imageUrl } = req.body;
 
         if (!name || !location || !quota || !requirements || !date) {
@@ -99,18 +79,11 @@ class EventController {
                 }
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else if (err.name === 'ForbiddenError') {
-                    res.status(403).json({ message: 'Forbidden' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
+                next(err);
             })
     }
 
-    static DeleteEventbyID(req, res) {
+    static DeleteEventbyID(req, res, next) {
         Event.destroy({
             where: { id: req.params.id }
         })
@@ -122,14 +95,7 @@ class EventController {
                 }
             })
             .catch(err => {
-                console.error('Internal Server Error occurred:', err);
-                if (err instanceof BaseError) {
-                    res.status(500).json({ message: 'Internal Server Error' });
-                } else if (err.name === 'ForbiddenError') {
-                    res.status(403).json({ message: 'Forbidden' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
+                next(err);
             })
     }
 }
