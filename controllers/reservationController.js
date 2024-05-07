@@ -1,7 +1,7 @@
-const { Reservation, User, Event } = require('../models');
+const { Reservation, User, Event, Sequelize } = require('../models');
 
 class ReservationController {
-    static GetAllReservation(req, res) {
+    static GetAllReservation(req, res, next) {
         Reservation.findAll({
             include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
         })
@@ -9,12 +9,11 @@ class ReservationController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error(err);
-                res.status(500).json({ message: err.message });
-            })
+                next(err);
+            });
     }
 
-    static GetReservationByID(req, res) {
+    static GetReservationByID(req, res, next) {
         Reservation.findByPk(req.params.id, {
             include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
         })
@@ -25,12 +24,29 @@ class ReservationController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error(err);
-                res.status(500).json({ message: err.message });
-            })
+                next(err);
+            });
     }
 
-    static CreateReservation(req, res) {
+    static GetReservationByUserID(req, res, next) {
+        const userId = req.params.userId;
+
+        Reservation.findAll({
+            where: { user_id: userId },
+            include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
+        })
+            .then(result => {
+                if (result.length === 0) {
+                    return res.status(404).json({ message: 'Reservations not found for this user' });
+                }
+                res.status(200).json(result);
+            })
+            .catch(err => {
+                next(err);
+            });
+    }
+
+    static CreateReservation(req, res, next) {
         const { address, age, weight, bloodType } = req.body;
         const eventId = req.params.eventId;
         const user = res.locals.user;
@@ -40,38 +56,37 @@ class ReservationController {
         }
 
         Event.findByPk(eventId)
-        .then(event => {
-            if (!event) {
-                return res.status(404).json({ message: 'Event not found' });
-            }
+            .then(event => {
+                if (!event) {
+                    return res.status(404).json({ message: 'Event not found' });
+                }
 
-            Reservation.create({
-                address,
-                age,
-                weight,
-                blood_type: bloodType,
-                user_id: user.id,
-                event_id: eventId
-            })
-                .then(result => {
-                    res.status(201).json({ message: 'Reservation created successfully', reservation: result, eventId: eventId });
+                Reservation.create({
+                    address,
+                    age,
+                    weight,
+                    blood_type: bloodType,
+                    user_id: user.id,
+                    event_id: eventId
                 })
-                .catch(err => {
-                    console.error(err);
-                    if (err.name === 'SequelizeUniqueConstraintError') {
-                        res.status(400).json({ message: 'Reservation already exists' });
-                    } else {
-                        res.status(500).json({ message: err.message });
-                    }
-                });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({ message: err.message });
-        });
+                    .then(result => {
+                        res.status(201).json({ message: 'Reservation created successfully', reservation: result, eventId: eventId });
+                    })
+                    .catch(err => {
+                        console.error("An error occurred while processing the request.");
+                        if (err.name === 'SequelizeUniqueConstraintError') {
+                            res.status(400).json({ message: 'Reservation already exists' });
+                        } else {
+                            res.status(500).json({ message: 'Internal Server Error' });
+                        }
+                    });
+            })
+            .catch(err => {
+                next(err);
+            });
     }
 
-    static UpdateReservationByID(req, res) {
+    static UpdateReservationByID(req, res, next) {
         const { address, age, weight, bloodType } = req.body;
 
         if (!address || !age || !weight || !bloodType) {
@@ -97,9 +112,8 @@ class ReservationController {
                 }
             })
             .catch(err => {
-                console.error(err);
-                res.status(500).json({ message: err.message });
-            })
+                next(err);
+            });
     }
 
     static DeleteReservationbyID(req, res) {
@@ -114,9 +128,8 @@ class ReservationController {
                 }
             })
             .catch(err => {
-                console.error(err);
-                res.status(500).json({ message: err.message });
-            })
+                next(err);
+            });
     }
 }
 

@@ -1,18 +1,21 @@
-const { Event } = require('../models');
+const { Event, Sequelize } = require('../models');
 
 class EventController {
     static GetAllEvents(req, res) {
-        Event.findAll()
+        const page = req.query.page || 1;
+        const limit = 10;
+        const offset = (page - 1) * limit;
+
+        Event.findAll({ limit, offset })
             .then(result => {
-                res.status(200).json(result);
+                res.status(200).json(result); 
             })
             .catch(err => {
-                console.error(err);
-                res.status(500).json({ message: err.message });
+                next(err);
             })
     }
 
-    static GetEventByID(req, res) {
+    static GetEventByID(req, res, next) {
         Event.findByPk(req.params.id)
             .then(result => {
                 if (!result) {
@@ -21,12 +24,11 @@ class EventController {
                 res.status(200).json(result);
             })
             .catch(err => {
-                console.error(err);
-                res.status(500).json({ message: err.message });
+                next(err);
             })
     }
 
-    static CreateEvent(req, res) {
+    static CreateEvent(req, res, next) {
         const { name, location, quota, requirements, date, imageUrl } = req.body;
 
         if (!name || !location || !quota || !requirements || !date) {
@@ -45,16 +47,11 @@ class EventController {
                 res.status(201).json(result);
             })
             .catch(err => {
-                console.error(err);
-                if (err.name === 'SequelizeUniqueConstraintError') {
-                    res.status(400).json({ message: 'Event already exists' });
-                } else {
-                    res.status(500).json({ message: err.message });
-                }
+                next(err);
             })
     }
 
-    static UpdateEventByID(req, res) {
+    static UpdateEventByID(req, res, next) {
         const { name, location, quota, requirements, date, imageUrl } = req.body;
 
         if (!name || !location || !quota || !requirements || !date) {
@@ -82,12 +79,11 @@ class EventController {
                 }
             })
             .catch(err => {
-                console.error(err);
-                res.status(500).json({ message: err.message });
+                next(err);
             })
     }
 
-    static DeleteEventbyID(req, res) {
+    static DeleteEventbyID(req, res, next) {
         Event.destroy({
             where: { id: req.params.id }
         })
@@ -99,8 +95,7 @@ class EventController {
                 }
             })
             .catch(err => {
-                console.error(err);
-                res.status(500).json({ message: err.message });
+                next(err);
             })
     }
 }
