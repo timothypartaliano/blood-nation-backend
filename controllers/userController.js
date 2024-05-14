@@ -47,17 +47,11 @@ class UserController {
         })
             .then(user => {
                 if (!user) {
-                    throw {
-                        name: "User Login Error",
-                        devMessage: `User with email ${email} not found`
-                    }
+                    return res.status(404).json({ message: `User with email ${email} not found` });
                 }
                 const isCorrect = comparePassword(password, user.password)
                 if (!isCorrect) {
-                    throw {
-                        name: "User Login Error",
-                        devMessage: `User's password with email ${email} does not match`
-                    }
+                    return res.status(401).json({ message: `User's password with email ${email} does not match` });
                 }
                 let payload = {
                     id: user.id,

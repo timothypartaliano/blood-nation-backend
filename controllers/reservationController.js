@@ -116,7 +116,7 @@ class ReservationController {
             });
     }
 
-    static DeleteReservationbyID(req, res) {
+    static DeleteReservationbyID(req, res,) {
         Reservation.destroy({
             where: { id: req.params.id }
         })

@@ -1,7 +1,7 @@
 const { Event, Sequelize } = require('../models');
 
 class EventController {
-    static GetAllEvents(req, res) {
+    static GetAllEvents(req, res, next) {
         const page = req.query.page || 1;
         const limit = 10;
         const offset = (page - 1) * limit;
