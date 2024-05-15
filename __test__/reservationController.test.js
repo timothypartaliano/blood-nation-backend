@@ -63,7 +63,47 @@ describe('ReservationController', () => {
 
   describe('CreateReservation', () => {
     it('should create a new reservation', async () => {
-
+      it('should create a new reservation', async () => {
+        const req = {
+          body: {
+            address: 'New Address',
+            age: 25,
+            weight: 70,
+            bloodType: 'A+',
+          },
+          params: { eventId: 'event-id' },
+          locals: { user: { id: 'user-id' } },
+        };
+        const res = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn(),
+          locals: { user: { id: 'user-id' } },
+        };
+        const fakeEvent = { id: 'event-id', name: 'Test Event' };
+        const fakeUser = { id: 'user-id', name: 'Test User' };
+    
+        Event.findByPk.mockResolvedValue(fakeEvent);
+        User.findOne.mockResolvedValue(fakeUser);
+    
+        await ReservationController.CreateReservation(req, res);
+    
+        expect(Event.findByPk).toHaveBeenCalledWith('event-id');
+        expect(User.findOne).toHaveBeenCalledWith({ where: { id: 'user-id' } });
+        expect(Reservation.create).toHaveBeenCalledWith({
+          address: 'New Address',
+          age: 25,
+          weight: 70,
+          blood_type: 'A+',
+          user_id: 'user-id',
+          event_id: 'event-id',
+        });
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({
+          message: 'Reservation created successfully',
+          reservation: expect.any(Object),
+          eventId: 'event-id',
+        });
+      });
     });
 
     it('should return 400 if any required field is missing', async () => {
