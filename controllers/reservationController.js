@@ -51,10 +51,6 @@ class ReservationController {
         const eventId = req.params.eventId;
         const user = res.locals.user;
 
-        if (!address || !age || !weight || !bloodType || !eventId) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
-
         Event.findByPk(eventId)
             .then(event => {
                 if (!event) {
@@ -88,10 +84,6 @@ class ReservationController {
 
     static UpdateReservationByID(req, res, next) {
         const { address, age, weight, bloodType } = req.body;
-
-        if (!address || !age || !weight || !bloodType) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
 
         let reservationData = {
             address,
