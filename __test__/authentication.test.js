@@ -68,7 +68,7 @@ describe('Authentication Middleware', () => {
         expect(res.status).toHaveBeenCalledWith(401);
         expect(res.json).toHaveBeenCalledWith({
             name: "Authentication Error",
-            devMessage: `User with id ${userDecoded.id} not found in Database`
+            message: `User with id ${userDecoded.id} not found in Database`
         });
         expect(next).not.toHaveBeenCalled();
     });
