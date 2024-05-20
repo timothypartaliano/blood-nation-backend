@@ -15,7 +15,7 @@ function authentication(req, res, next) {
                 if (!user) {
                     return res.status(401).json({
                         name: "Authentication Error",
-                        devMessage: `User with id ${userDecoded.id} not found in Database`
+                        message: `User with id ${userDecoded.id} not found in Database`
                     })
                 }
                 res.locals.user = user

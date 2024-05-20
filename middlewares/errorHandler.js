@@ -15,7 +15,7 @@ function errorHandler(err, req, res, next) {
         message = 'Forbidden';
     } else if (err.name === 'User Login Error') {
         statusCode = 401;
-        message = err.devMessage;
+        message = err.message;
     }
 
     res.status(statusCode).json({ message });

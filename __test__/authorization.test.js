@@ -42,7 +42,7 @@ describe('Authorization Middleware', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({
             name: "Bad Request",
-            devMessage: "Invalid event ID provided"
+            message: "Invalid event ID provided"
         });
         expect(next).not.toHaveBeenCalled();
     });
@@ -64,7 +64,7 @@ describe('Authorization Middleware', () => {
         expect(res.status).toHaveBeenCalledWith(404);
         expect(res.json).toHaveBeenCalledWith({
             name: "Data Not Found",
-            devMessage: `Event with id valid-uuid not found`
+            message: `Event with id valid-uuid not found`
         });
         expect(next).not.toHaveBeenCalled();
     });
@@ -87,7 +87,7 @@ describe('Authorization Middleware', () => {
         expect(res.status).toHaveBeenCalledWith(403);
         expect(res.json).toHaveBeenCalledWith({
             name: "Authorization Error",
-            devMessage: `User with id 1 does not have permission to access Event with id valid-uuid`
+            message: `User with id 1 does not have permission to access Event with id valid-uuid`
         });
         expect(next).not.toHaveBeenCalled();
     });

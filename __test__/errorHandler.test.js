@@ -64,7 +64,7 @@ describe('Error Handler Middleware', () => {
     });
 
     test('should return 401 for User Login Error', () => {
-        const err = { name: 'User Login Error', devMessage: 'Invalid credentials' };
+        const err = { name: 'User Login Error', message: 'Invalid credentials' };
         const req = mockRequest();
         const res = mockResponse();
         const next = mockNext;
