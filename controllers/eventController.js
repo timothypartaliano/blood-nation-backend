@@ -1,7 +1,7 @@
 const { Event, Sequelize } = require('../models');
 
 class EventController {
-    static GetAllEvents(req, res) {
+    static GetAllEvents(req, res, next) {
         const page = req.query.page || 1;
         const limit = 10;
         const offset = (page - 1) * limit;
@@ -31,10 +31,6 @@ class EventController {
     static CreateEvent(req, res, next) {
         const { name, location, quota, requirements, date, imageUrl } = req.body;
 
-        if (!name || !location || !quota || !requirements || !date) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
-
         Event.create({
             name,
             location,
@@ -53,10 +49,6 @@ class EventController {
 
     static UpdateEventByID(req, res, next) {
         const { name, location, quota, requirements, date, imageUrl } = req.body;
-
-        if (!name || !location || !quota || !requirements || !date) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
 
         let eventData = {
             name,

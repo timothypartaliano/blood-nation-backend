@@ -9,7 +9,7 @@ function authorization(req, res, next) {
     if (!uuidValidate(eventId)) {
         return res.status(400).json({
             name: "Bad Request",
-            devMessage: "Invalid event ID provided"
+            message: "Invalid event ID provided"
         });
     }
 
@@ -22,7 +22,7 @@ function authorization(req, res, next) {
             if (!event) {
                 return res.status(404).json({
                     name: "Data Not Found",
-                    devMessage: `Event with id ${eventId} not found`
+                    message: `Event with id ${eventId} not found`
                 })
             }
             if (event.UserId === authenticatedUser.id) {
@@ -30,7 +30,7 @@ function authorization(req, res, next) {
             } else {
                 return res.status(403).json({
                     name: "Authorization Error",
-                    devMessage: `User with id ${authenticatedUser.id} does not have permission to access Event with id ${eventId}`
+                    message: `User with id ${authenticatedUser.id} does not have permission to access Event with id ${eventId}`
                 })
             }
         })
