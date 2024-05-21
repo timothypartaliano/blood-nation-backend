@@ -49,7 +49,7 @@ class ReservationController {
     static CreateReservation(req, res, next) {
         const { address, age, weight, bloodType } = req.body;
         const eventId = req.params.eventId;
-        const user = res.locals.user;
+        const userId = req.params.userId;
 
         Event.findByPk(eventId)
             .then(event => {
@@ -62,19 +62,14 @@ class ReservationController {
                     age,
                     weight,
                     blood_type: bloodType,
-                    user_id: user.id,
+                    user_id: userId,
                     event_id: eventId
                 })
                     .then(result => {
                         res.status(201).json({ message: 'Reservation created successfully', reservation: result, eventId: eventId });
                     })
                     .catch(err => {
-                        console.error("An error occurred while processing the request.");
-                        if (err.name === 'SequelizeUniqueConstraintError') {
-                            res.status(400).json({ message: 'Reservation already exists' });
-                        } else {
-                            res.status(500).json({ message: 'Internal Server Error' });
-                        }
+                        next(err);
                     });
             })
             .catch(err => {

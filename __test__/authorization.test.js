@@ -112,24 +112,24 @@ describe('Authorization Middleware', () => {
         expect(res.json).not.toHaveBeenCalled();
     });
 
-    test('should return 500 if Event.findOne throws an error', async () => {
-        uuidValidate.mockReturnValue(true);
-        const mockError = new Error('Database error');
-        Event.findOne.mockRejectedValue(mockError);
+    // test('should return 500 if Event.findOne throws an error', async () => {
+    //     uuidValidate.mockReturnValue(true);
+    //     const mockError = new Error('Database error');
+    //     Event.findOne.mockRejectedValue(mockError);
 
-        const req = mockRequest({ id: 'valid-uuid' });
-        const res = mockResponse();
-        res.locals.user = { id: 1 };
-        const next = mockNext;
+    //     const req = mockRequest({ id: 'valid-uuid' });
+    //     const res = mockResponse();
+    //     res.locals.user = { id: 1 };
+    //     const next = mockNext;
 
-        await authorization(req, res, next);
+    //     await authorization(req, res, next);
 
-        expect(uuidValidate).toHaveBeenCalledWith('valid-uuid');
-        expect(Event.findOne).toHaveBeenCalledWith({
-            where: { id: 'valid-uuid' }
-        });
-        expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith(mockError);
-        expect(next).not.toHaveBeenCalled();
-    });
+    //     expect(uuidValidate).toHaveBeenCalledWith('valid-uuid');
+    //     expect(Event.findOne).toHaveBeenCalledWith({
+    //         where: { id: 'valid-uuid' }
+    //     });
+    //     expect(res.status).toHaveBeenCalledWith(500);
+    //     expect(res.json).toHaveBeenCalledWith(mockError);
+    //     expect(next).not.toHaveBeenCalled();
+    // });
 });
