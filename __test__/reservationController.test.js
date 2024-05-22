@@ -7,7 +7,7 @@ describe('ReservationController', () => {
     let req, res;
 
     beforeEach(() => {
-        req = {};
+        req = { params: {} };
         res = {
             status: jest.fn().mockReturnThis(),
             json: jest.fn()
@@ -48,6 +48,37 @@ describe('ReservationController', () => {
 
             expect(res.status).toHaveBeenCalledWith(404);
             expect(res.json).toHaveBeenCalledWith({ message: 'Reservation not found' });
+        });
+    });
+
+    describe('GetReservationByUserID', () => {
+        it('should return reservations for a user by user ID', async () => {
+            const userId = 1;
+            req.params.userId = userId;
+            const reservations = [
+                { id: 1, user_id: userId, event_id: 1, address: 'Test Address', user: {}, event: {} }
+            ];
+            Reservation.findAll.mockResolvedValue(reservations);
+
+            await ReservationController.GetReservationByUserID(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith(reservations);
+            expect(Reservation.findAll).toHaveBeenCalledWith({
+                where: { user_id: userId },
+                include: [{ model: User, as: 'user' }, { model: Event, as: 'event' }]
+            });
+        });
+
+        it('should return 404 if no reservations found for the user', async () => {
+            const userId = 1;
+            req.params.userId = userId;
+            Reservation.findAll.mockResolvedValue([]);
+
+            await ReservationController.GetReservationByUserID(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(404);
+            expect(res.json).toHaveBeenCalledWith({ message: 'Reservations not found for this user' });
         });
     });
 

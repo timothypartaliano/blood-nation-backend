@@ -46,35 +46,31 @@ class ReservationController {
             });
     }
 
-    static CreateReservation(req, res, next) {
-        const { address, age, weight, bloodType } = req.body;
-        const eventId = req.params.eventId;
-        const userId = req.params.userId;
-
-        Event.findByPk(eventId)
-            .then(event => {
-                if (!event) {
-                    return res.status(404).json({ message: 'Event not found' });
-                }
-
-                Reservation.create({
-                    address,
-                    age,
-                    weight,
-                    blood_type: bloodType,
-                    user_id: userId,
-                    event_id: eventId
-                })
-                    .then(result => {
-                        res.status(201).json({ message: 'Reservation created successfully', reservation: result, eventId: eventId });
-                    })
-                    .catch(err => {
-                        next(err);
-                    });
-            })
-            .catch(err => {
-                next(err);
+    static async CreateReservation(req, res, next) {
+        try {
+            const { address, age, weight, bloodType } = req.body;
+            const eventId = req.params.eventId;
+            const userId = req.params.userId;
+    
+            const event = await Event.findByPk(eventId);
+    
+            if (!event) {
+                return res.status(404).json({ message: 'Event not found' });
+            }
+    
+            const reservation = await Reservation.create({
+                address,
+                age,
+                weight,
+                blood_type: bloodType,
+                user_id: userId,
+                event_id: eventId
             });
+    
+            res.status(201).json({ message: 'Reservation created successfully', reservation: reservation, eventId: eventId });
+        } catch (err) {
+            next(err);
+        }
     }
 
     static UpdateReservationByID(req, res, next) {
