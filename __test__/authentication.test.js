@@ -87,24 +87,4 @@ describe('Authentication Middleware', () => {
         expect(res.json).toHaveBeenCalledWith(expect.any(Error));
         expect(next).not.toHaveBeenCalled();
     });
-
-    // test('should return 401 if User.findOne throws an error', async () => {
-    //     const userDecoded = { id: 1, email: 'test@example.com' };
-    //     verifyToken.mockReturnValue(userDecoded);
-    //     User.findOne.mockRejectedValue(new Error('Database error'));
-
-    //     const req = mockRequest({ token: 'valid_token' });
-    //     const res = mockResponse();
-    //     const next = mockNext;
-
-    //     await authentication(req, res, next);
-
-    //     expect(verifyToken).toHaveBeenCalledWith('valid_token');
-    //     expect(User.findOne).toHaveBeenCalledWith({
-    //         where: { id: userDecoded.id, email: userDecoded.email }
-    //     });
-    //     expect(res.status).toHaveBeenCalledWith(401);
-    //     expect(res.json).toHaveBeenCalledWith(expect.any(Error));
-    //     expect(next).not.toHaveBeenCalled();
-    // });
 });
