@@ -1,6 +1,8 @@
 # blood-nation-backend
 BloodNation is an application designed to facilitate blood donation by helping users find locations for blood donation events and make reservations to participate in these events.
 
+</br>
+
 ## Installation
 1. Clone this repository
 ```bash
@@ -17,8 +19,12 @@ BloodNation is an application designed to facilitate blood donation by helping u
  npm run start
 ```
 
+</br>
+
 ## Documentation
 The documentation is available on [Blood Nation API Docs](https://documenter.getpostman.com/view/31622292/2sA35LVfHq).
+
+</br>
 
 ## ERD
 This is the **Entity Relationship Diagram** of Blood Nation App.
